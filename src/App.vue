@@ -1,30 +1,16 @@
 <template>
     <div id="app">
-        <img
-            alt="Vue logo"
-            src="./assets/logo.png"
-        />
-        <HelloWorld
-            msg="Welcome to Your Vue.js App"
-        />
-        <CheckBox
-            :isCheckedParent.sync="
-                isCheckedParent
-            "
-        ></CheckBox>
-        <div v-if="isCheckedParent">
-            Hello from parent!
-        </div>
+       <EmailBox class="EmailBox"></EmailBox> 
     </div>
 </template>
 
 <script>
-    import CheckBox from './components/CheckBox.vue'
+    import EmailBox from "./components/EmailBox.vue"
 
     export default {
         name: 'App',
         components: {
-            CheckBox,
+            EmailBox
         },
         data() {
             return {
@@ -35,13 +21,16 @@
 </script>
 
 <style>
-    #app {
-        font-family: Avenir, Helvetica,
-            Arial, sans-serif;
-        -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale;
-        text-align: center;
-        color: #2c3e50;
-        margin-top: 60px;
-    }
+@import './styles/global.css';
+
+
+#app {
+    font-family: Avenir, Helvetica,
+        Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-align: center;
+    color: #2c3e50;
+    margin-top: 60px;
+}
 </style>
