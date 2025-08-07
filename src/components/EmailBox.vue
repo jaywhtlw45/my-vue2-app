@@ -6,7 +6,8 @@
         </header>
 
         <body class="body">
-            <input type="textbox" class="emailInput" @focus="focusTextBox" @blur="unfocusTextBox">
+            <textarea ref="emailTextarea" class="emailInput" @focus="focusTextBox" @blur="unfocusTextBox"
+                autocomplete="off" @keydown="handleKeydown"></textarea>
 
             <div v-if="isSelected">Text Box Selected</div>
         </body>
@@ -16,9 +17,11 @@
             </div>
             <ul>
                 <li v-for="(file, index) in attachedFiles" :key="index">
-                    {{ file }}
+                    {{ file.types }}
                 </li>
             </ul>
+
+
 
         </footer>
     </container>
@@ -29,17 +32,47 @@ export default {
     name: 'EmailBox',
     data() {
         return {
-            attachedFiles: ['file1.txt', 'file2.txt', 'file3.txt'],
+            attachedFiles: [],
             isSelected: false,
         }
     },
     methods: {
+        handleKeydown(event) {
+            if (event.ctrlKey && event.key == 'v') {
+                event.preventDefault();
+                this.customPasteFunction();
+            }
+        },
+        async customPasteFunction() {
+            const clipboardItems = await navigator.clipboard.read();
+
+            for (const item of clipboardItems) {
+                if (item.types.includes('image/png') ||
+                    item.types.includes('image/jpeg') ||
+                    item.types.includes('imnage/gif'))
+                    await this.handleImagePaste(item);
+                return;
+
+            }
+            const clipboardData = await navigator.clipboard.readText();
+            this.insertTextAtCursor(clipboardData);
+        },
+        async handleImagePaste(item) {
+            console.log(item);
+            this.attachedFiles.push(item);
+            return;
+        },
         focusTextBox() {
             this.isSelected = true;
         },
         unfocusTextBox() {
             this.isSelected = false;
         }
+    },
+    watch: {
+        attachedFiles {
+
+}
     }
 }
 </script>
